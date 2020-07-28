@@ -297,6 +297,7 @@ func TestLoadSources(t *testing.T) {
 				So(f, ShouldNotBeNil)
 
 				So(f.Section("Author").Key("e-mail").String(), ShouldEqual, "u@gogs.io")
+				So(f.Section("Author").Key("e-mail").String(), ShouldEqual, "u@gogs.io")
 
 				Convey("Write out", func() {
 					var buf bytes.Buffer
@@ -313,7 +314,59 @@ e-mail = u@gogs.io
 					So(err, ShouldBeNil)
 					So(f, ShouldNotBeNil)
 
-					So(f.Section("Author").Key("e-mail").String(), ShouldBeEmpty)
+					So(f.Section("AUTHOR").Key("e-mail").String(), ShouldBeEmpty)
+				})
+			})
+
+			Convey("Insensitive to sections and sensitive to key names", func() {
+				f, err := ini.LoadSources(ini.LoadOptions{InsensitiveSections: true}, minimalConf)
+				So(err, ShouldBeNil)
+				So(f, ShouldNotBeNil)
+
+				So(f.Section("AUTHOR").Key("E-MAIL").String(), ShouldEqual, "u@gogs.io")
+
+				Convey("Write out", func() {
+					var buf bytes.Buffer
+					_, err := f.WriteTo(&buf)
+					So(err, ShouldBeNil)
+					So(buf.String(), ShouldEqual, `[author]
+E-MAIL = u@gogs.io
+
+`)
+				})
+
+				Convey("Inverse case", func() {
+					f, err := ini.LoadSources(ini.LoadOptions{}, minimalConf)
+					So(err, ShouldBeNil)
+					So(f, ShouldNotBeNil)
+
+					So(f.Section("author").Key("e-mail").String(), ShouldBeEmpty)
+				})
+			})
+
+			Convey("Sensitive to sections and insensitive to key names", func() {
+				f, err := ini.LoadSources(ini.LoadOptions{InsensitiveKeys: true}, minimalConf)
+				So(err, ShouldBeNil)
+				So(f, ShouldNotBeNil)
+
+				So(f.Section("author").Key("e-mail").String(), ShouldEqual, "u@gogs.io")
+
+				Convey("Write out", func() {
+					var buf bytes.Buffer
+					_, err := f.WriteTo(&buf)
+					So(err, ShouldBeNil)
+					So(buf.String(), ShouldEqual, `[author]
+e-mail = u@gogs.io
+
+`)
+				})
+
+				Convey("Inverse case", func() {
+					f, err := ini.LoadSources(ini.LoadOptions{}, minimalConf)
+					So(err, ShouldBeNil)
+					So(f, ShouldNotBeNil)
+
+					So(f.Section("AUTHOR").Key("e-mail").String(), ShouldBeEmpty)
 				})
 			})
 

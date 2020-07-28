@@ -117,6 +117,10 @@ type LoadOptions struct {
 	ReaderBufferSize int
 	// AllowNonUniqueSections indicates whether to allow sections with the same name multiple times.
 	AllowNonUniqueSections bool
+	// Allow Sensitive sections but insensitive key names.
+	InsensitiveSections bool
+	// Allow Sensitive key names but insensitive sections.
+	InsensitiveKeys bool
 }
 
 // DebugFunc is the type of function called to log parse events.

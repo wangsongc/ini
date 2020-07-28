@@ -1,8 +1,9 @@
 name: Go
 on:
   push:
-    branches: [master]
+    branches: [issue238]
   pull_request:
+    branches: [issue238]
 env:
   GOPROXY: "https://proxy.golang.org"
 
