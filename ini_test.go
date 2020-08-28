@@ -1367,6 +1367,54 @@ GITHUB = U;n;k;n;w;o;n
 				}
 			})
 		})
+		Convey("with `AllowShortCircuit` 'ture'", func() {
+			Convey("Load the first available config", func() {
+				f, err := ini.LoadSources(ini.LoadOptions{AllowShortCircuit: true}, minimalConf, []byte(`key1 = value1`))
+				So(f, ShouldNotBeNil)
+				So(err, ShouldBeNil)
+				var buf bytes.Buffer
+				_, err = f.WriteTo(&buf)
+				So(err, ShouldBeNil)
+				So(buf.String(), ShouldEqual, `[author]
+E-MAIL = u@gogs.io
+
+`)
+			})
+
+			Convey("Load the second available config", func() {
+				f, err := ini.LoadSources(ini.LoadOptions{AllowShortCircuit: true}, notFoundConf, minimalConf)
+				So(f, ShouldNotBeNil)
+				So(err, ShouldBeNil)
+				var buf bytes.Buffer
+				_, err = f.WriteTo(&buf)
+				So(err, ShouldBeNil)
+				So(buf.String(), ShouldEqual, `[author]
+E-MAIL = u@gogs.io
+
+`)
+			})
+
+			Convey("Load none available config, return err", func() {
+				f, err := ini.LoadSources(ini.LoadOptions{AllowShortCircuit: true}, notFoundConf, minimalConf+"1")
+				So(f, ShouldBeNil)
+				So(err, ShouldNotBeNil)
+			})
+
+			Convey("Inverse case", func() {
+				f, err := ini.LoadSources(ini.LoadOptions{AllowShortCircuit: false}, minimalConf, []byte(`key1 = value1`))
+				So(f, ShouldNotBeNil)
+				So(err, ShouldBeNil)
+				var buf bytes.Buffer
+				_, err = f.WriteTo(&buf)
+				So(err, ShouldBeNil)
+				So(buf.String(), ShouldEqual, `key1 = value1
+
+[author]
+E-MAIL = u@gogs.io
+
+`)
+			})
+		})
 	})
 }
 

@@ -123,6 +123,9 @@ type LoadOptions struct {
 	ReaderBufferSize int
 	// AllowNonUniqueSections indicates whether to allow sections with the same name multiple times.
 	AllowNonUniqueSections bool
+	// AllowShortCircuit allows only one available configuration source to be loaded when multiple configuration sources are loaded,
+	// ignoring other subsequent configuration sources.
+	AllowShortCircuit bool
 }
 
 // DebugFunc is the type of function called to log parse events.
@@ -135,12 +138,27 @@ func LoadSources(opts LoadOptions, source interface{}, others ...interface{}) (_
 	if err != nil {
 		return nil, err
 	}
-	for i := range others {
-		sources[i+1], err = parseDataSource(others[i])
-		if err != nil {
-			return nil, err
+
+	if opts.AllowShortCircuit {
+		sources = sources[0:1]
+		if f := newFile(sources, opts); f.Reload() != nil {
+			for i := range others {
+				sources[0], err = parseDataSource(others[i])
+				if err != nil || f.Reload() != nil {
+					continue
+				}
+				break
+			}
+		}
+	} else {
+		for i := range others {
+			sources[i+1], err = parseDataSource(others[i])
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
+
 	f := newFile(sources, opts)
 	if err = f.Reload(); err != nil {
 		return nil, err
