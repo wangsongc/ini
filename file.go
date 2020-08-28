@@ -293,14 +293,22 @@ func (f *File) reload(s dataSource) error {
 
 // Reload reloads and parses all data sources.
 func (f *File) Reload() (err error) {
-	for _, s := range f.dataSources {
+	for i, s := range f.dataSources {
 		if err = f.reload(s); err != nil {
 			// In loose mode, we create an empty default section for nonexistent files.
 			if os.IsNotExist(err) && f.options.Loose {
 				_ = f.parse(bytes.NewBuffer(nil))
 				continue
 			}
+			// When the AllowShortCircuit option is turned on and all configuration sources cannot be loaded,
+			// err should be returned to notify the user.
+			if f.options.AllowShortCircuit && i < len(f.dataSources)-1 {
+				continue
+			}
 			return err
+		}
+		if f.options.AllowShortCircuit {
+			return nil
 		}
 	}
 	return nil

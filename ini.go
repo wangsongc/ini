@@ -123,6 +123,8 @@ type LoadOptions struct {
 	ReaderBufferSize int
 	// AllowNonUniqueSections indicates whether to allow sections with the same name multiple times.
 	AllowNonUniqueSections bool
+	// AllowShortCircuit allows to ignore other configuration sources after loading the first available configuration source.
+	AllowShortCircuit bool
 }
 
 // DebugFunc is the type of function called to log parse events.
