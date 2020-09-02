@@ -4,7 +4,6 @@ on:
     branches:
       - benchmark
 
-
 jobs:
   benchmark:
     name: Run Go benchmark
