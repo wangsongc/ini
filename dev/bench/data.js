@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1599020117329,
+  "lastUpdate": 1599020145853,
   "repoUrl": "https://github.com/wangsongc/ini",
   "entries": {
     "Go Benchmark": [
@@ -188,6 +188,100 @@ window.BENCHMARK_DATA = {
             "value": 79.6,
             "unit": "ns/op",
             "extra": "15949933 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "wangsongc@foxemail.com",
+            "name": "wangsongc"
+          },
+          "committer": {
+            "email": "wangsongc@foxemail.com",
+            "name": "wangsongc"
+          },
+          "distinct": true,
+          "id": "979453ecf6acab3993c123633ce52e4c7892ea0a",
+          "message": "test1",
+          "timestamp": "2020-09-02T12:14:58+08:00",
+          "tree_id": "a0011cd531fe51bd5ce5d1bc3a34890e1609caea",
+          "url": "https://github.com/wangsongc/ini/commit/979453ecf6acab3993c123633ce52e4c7892ea0a"
+        },
+        "date": 1599020145385,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "Benchmark_Key_Value",
+            "value": 66.3,
+            "unit": "ns/op",
+            "extra": "18049851 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_Value_NonBlock",
+            "value": 34.5,
+            "unit": "ns/op",
+            "extra": "34248147 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_Value_ViaSection",
+            "value": 33.6,
+            "unit": "ns/op",
+            "extra": "32222786 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_Value_ViaSection_NonBlock",
+            "value": 18.8,
+            "unit": "ns/op",
+            "extra": "61501616 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_Value_Direct",
+            "value": 0.395,
+            "unit": "ns/op",
+            "extra": "1000000000 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_Value_Direct_NonBlock",
+            "value": 0.387,
+            "unit": "ns/op",
+            "extra": "1000000000 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_String",
+            "value": 73.7,
+            "unit": "ns/op",
+            "extra": "16020510 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_String_NonBlock",
+            "value": 45.1,
+            "unit": "ns/op",
+            "extra": "26051497 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_String_ViaSection",
+            "value": 40.7,
+            "unit": "ns/op",
+            "extra": "28914514 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_String_ViaSection_NonBlock",
+            "value": 28.7,
+            "unit": "ns/op",
+            "extra": "43255003 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_SetValue",
+            "value": 119,
+            "unit": "ns/op",
+            "extra": "10751445 times\n2 procs"
+          },
+          {
+            "name": "Benchmark_Key_SetValue_VisSection",
+            "value": 85.6,
+            "unit": "ns/op",
+            "extra": "13983925 times\n2 procs"
           }
         ]
       }
